@@ -23,6 +23,7 @@ class DataTransformation:
             self.data_transformation_config:DataTransformationConfig=data_transformation_config
         except Exception as e:
             raise NetworkSecurityException(e,sys)
+        
     @staticmethod
     def read_data(file_path)->pd.DataFrame:
         try:
@@ -30,7 +31,8 @@ class DataTransformation:
             
         except Exception as e:
             raise NetworkSecurityException(e,sys)
-        
+    
+    @classmethod    
     def get_data_transformer_object(cls)->Pipeline:
         """
         It initialises the KNN IMPUTER object with the parameters specified in the training_pipeline.py 
@@ -40,9 +42,9 @@ class DataTransformation:
             "Entered get_data_transformer_object method of data transformation class."
             )
         try:
-            imputer:KNNImputer=KNNImputer(**DATA_TRANSFORMATION_IMPUTER_PARAMS)
+            imputer=KNNImputer(**DATA_TRANSFORMATION_IMPUTER_PARAMS)
             logging.info(f"Initialise KNN Imputer with {DATA_TRANSFORMATION_IMPUTER_PARAMS}")
-            processor:Pipeline=Pipeline([("imputer",imputer)])
+            processor=Pipeline(steps=[("imputer",imputer)])
             return processor
         except Exception as e:
             raise NetworkSecurityException(e,sys)
@@ -52,8 +54,8 @@ class DataTransformation:
         logging.info("Entered initiate_data_transformation method of data transformation class.")
         try:
             logging.info("Starting Data Transformation .")
-            train_df=DataTransformation.read_data(self.data_validation_artifact.valid_train_file_path)
-            test_df=DataTransformation.read_data(self.data_validation_artifact.valid_test_file_path)
+            train_df=self.read_data(self.data_validation_artifact.valid_train_file_path)
+            test_df=self.read_data(self.data_validation_artifact.valid_test_file_path)
             #Training dataframe
             input_feature_train_df=train_df.drop(columns=[TARGET_COLUMN],axis=1)
             target_feature_train_df=train_df[TARGET_COLUMN]
@@ -75,9 +77,10 @@ class DataTransformation:
             test_arr=np.c_[transformed_input_test_feature,np.array(target_feature_test_df)]
 
             #save numpy array data
-            save_numpy_array_data(self.data_transformation_config.transformed_train_file_path,array=train_arr,)
-            save_numpy_array_data(self.data_transformation_config.transformed_test_file_path,array=test_arr,)
-            save_object(self.data_transformation_config.transformed_object_file_path,preprocessor_object,)
+            save_numpy_array_data(self.data_transformation_config.transformed_train_file_path,array=train_arr)
+            save_numpy_array_data(self.data_transformation_config.transformed_test_file_path,array=test_arr)
+            save_object(self.data_transformation_config.transformed_object_file_path,preprocessor_object)
+
 
             #preparing Artifact
             data_transformation_artifact=DataTransformationArtifact(

@@ -1,0 +1,6 @@
+[ 2026-02-03 18:57:21,785 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2026-02-03 18:57:21,813 ] 107 dagshub - INFO - Accessing as dkss-4
+[ 2026-02-03 18:57:23,691 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/dkss-4/networksecurity "HTTP/1.1 200 OK"
+[ 2026-02-03 18:57:25,505 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2026-02-03 18:57:25,509 ] 107 dagshub - INFO - Initialized MLflow to track repo "dkss-4/networksecurity"
+[ 2026-02-03 18:57:25,512 ] 107 dagshub - INFO - Repository dkss-4/networksecurity initialized!
